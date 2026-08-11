@@ -21,8 +21,7 @@
   //  It looks like:
   //  https://script.google.com/macros/s/AKfycb.../exec
   // ═══════════════════════════════════════════
-  const GOOGLE_SHEET_ENDPOINT = https://script.google.com/macros/s/AKfycbz4O1XddkctPBP9P013saY5y_qBC3Dka3Ta3lktZctNjoY90CNWa4OUrvbbZ8BCc92E/exec;
-
+  const GOOGLE_SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbz4O1XddkctPBP9P013saY5y_qBC3Dka3Ta3lktZctNjoY90CNWa4OUrvbbZ8BCc92E/exec';
   // ═══════════════════════════════════════════
   //  MUSIC — Web Audio API Arpeggio
   //  (Plays a gentle romantic piano loop)
