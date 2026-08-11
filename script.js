@@ -15,15 +15,24 @@
   const HERO_SLIDESHOW_INTERVAL_MS = 4200;
 
   // ═══════════════════════════════════════════
+  //  RSVP → GOOGLE SHEET ENDPOINT
+  //  Paste the "Web app" URL you get after deploying
+  //  the Apps Script below (Deploy → New deployment → Web app).
+  //  It looks like:
+  //  https://script.google.com/macros/s/AKfycb.../exec
+  // ═══════════════════════════════════════════
+  const GOOGLE_SHEET_ENDPOINT = https://script.google.com/macros/s/AKfycbz4O1XddkctPBP9P013saY5y_qBC3Dka3Ta3lktZctNjoY90CNWa4OUrvbbZ8BCc92E/exec;
+
+  // ═══════════════════════════════════════════
   //  MUSIC — Web Audio API Arpeggio
   //  (Plays a gentle romantic piano loop)
   //  Replace with your own MP3 in "Background song" folder
   // ═══════════════════════════════════════════
-  const bgMusic     = document.getElementById('bg-music');
+  const bgMusic = document.getElementById('bg-music');
   const musicToggle = document.getElementById('music-toggle');
-  let musicPlaying  = false;
-  let audioCtx      = null;
-  let masterGain    = null;
+  let musicPlaying = false;
+  let audioCtx = null;
+  let masterGain = null;
   let arpeggioTimer = null;
   let usingWebAudio = false;
 
@@ -81,24 +90,24 @@
     const t = audioCtx.currentTime + offset;
     const notes = [
       // First phrase — ascending
-      { freq: 261.63, time: 0.0,  dur: 3.0 },  // C4
-      { freq: 329.63, time: 0.5,  dur: 2.8 },  // E4
-      { freq: 392.00, time: 1.0,  dur: 2.6 },  // G4
-      { freq: 493.88, time: 1.5,  dur: 3.0 },  // B4
-      { freq: 523.25, time: 2.0,  dur: 3.5 },  // C5
+      { freq: 261.63, time: 0.0, dur: 3.0 },  // C4
+      { freq: 329.63, time: 0.5, dur: 2.8 },  // E4
+      { freq: 392.00, time: 1.0, dur: 2.6 },  // G4
+      { freq: 493.88, time: 1.5, dur: 3.0 },  // B4
+      { freq: 523.25, time: 2.0, dur: 3.5 },  // C5
       // Second phrase — descending with variation
-      { freq: 440.00, time: 3.5,  dur: 2.8 },  // A4
-      { freq: 392.00, time: 4.0,  dur: 2.5 },  // G4
-      { freq: 349.23, time: 4.5,  dur: 2.8 },  // F4
-      { freq: 329.63, time: 5.0,  dur: 3.0 },  // E4
+      { freq: 440.00, time: 3.5, dur: 2.8 },  // A4
+      { freq: 392.00, time: 4.0, dur: 2.5 },  // G4
+      { freq: 349.23, time: 4.5, dur: 2.8 },  // F4
+      { freq: 329.63, time: 5.0, dur: 3.0 },  // E4
       // Third phrase — resolution
-      { freq: 293.66, time: 6.5,  dur: 2.5 },  // D4
-      { freq: 329.63, time: 7.0,  dur: 2.8 },  // E4
-      { freq: 392.00, time: 7.5,  dur: 3.0 },  // G4
-      { freq: 523.25, time: 8.0,  dur: 3.5 },  // C5
+      { freq: 293.66, time: 6.5, dur: 2.5 },  // D4
+      { freq: 329.63, time: 7.0, dur: 2.8 },  // E4
+      { freq: 392.00, time: 7.5, dur: 3.0 },  // G4
+      { freq: 523.25, time: 8.0, dur: 3.5 },  // C5
       // Sustained bass note
-      { freq: 130.81, time: 0.0,  dur: 5.0 },  // C3 (bass)
-      { freq: 174.61, time: 5.0,  dur: 5.0 },  // F3 (bass)
+      { freq: 130.81, time: 0.0, dur: 5.0 },  // C3 (bass)
+      { freq: 174.61, time: 5.0, dur: 5.0 },  // F3 (bass)
     ];
 
     notes.forEach(n => playNote(n.freq, t + n.time, n.dur));
@@ -107,7 +116,7 @@
   function playNote(freq, startTime, duration) {
     if (!audioCtx || !masterGain) return;
 
-    const osc  = audioCtx.createOscillator();
+    const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
 
     osc.type = 'sine';
@@ -135,7 +144,7 @@
       masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.8);
       if (arpeggioTimer) clearInterval(arpeggioTimer);
       setTimeout(() => {
-        if (audioCtx) audioCtx.close().catch(() => {});
+        if (audioCtx) audioCtx.close().catch(() => { });
         audioCtx = null;
         masterGain = null;
         usingWebAudio = false;
@@ -164,9 +173,9 @@
   //  ENVELOPE
   // ═══════════════════════════════════════════
   const envelopeOverlay = document.getElementById('envelope-overlay');
-  const envelope        = document.getElementById('envelope');
-  const seal            = document.getElementById('seal');
-  const envelopeHint    = document.getElementById('envelope-hint');
+  const envelope = document.getElementById('envelope');
+  const seal = document.getElementById('seal');
+  const envelopeHint = document.getElementById('envelope-hint');
   const scrollContainer = document.getElementById('main-content');
   let sealBroken = false;
 
@@ -257,9 +266,9 @@
   //  SCRATCH CARD with AUTO-ASSIST
   // ═══════════════════════════════════════════
   const scratchCanvas = document.getElementById('scratch-canvas');
-  const scratchArea   = document.getElementById('scratch-area');
-  const scratchInstr  = document.getElementById('scratch-instruction');
-  const countdownSec  = document.getElementById('countdown-section');
+  const scratchArea = document.getElementById('scratch-area');
+  const scratchInstr = document.getElementById('scratch-instruction');
+  const countdownSec = document.getElementById('countdown-section');
   let scratchCtx, isScratching = false, scratchComplete = false;
   let scratchW = 0, scratchH = 0, scratchDpr = 1;
 
@@ -271,9 +280,9 @@
     scratchW = rect.width;
     scratchH = rect.height;
 
-    scratchCanvas.width  = scratchW * scratchDpr;
+    scratchCanvas.width = scratchW * scratchDpr;
     scratchCanvas.height = scratchH * scratchDpr;
-    scratchCanvas.style.width  = scratchW + 'px';
+    scratchCanvas.style.width = scratchW + 'px';
     scratchCanvas.style.height = scratchH + 'px';
 
     scratchCtx = scratchCanvas.getContext('2d');
@@ -409,9 +418,62 @@
     setTimeout(() => {
       if (countdownSec) countdownSec.classList.remove('hidden');
       startCountdown();
+
+      // "We are getting married 💍" fades in alongside the countdown
+      const marryingText = document.getElementById('marrying-text');
+      if (marryingText) marryingText.classList.add('visible');
+
+      // Brief confetti burst from the top of the card
+      launchConfetti();
     }, 800);
 
     setTimeout(() => unlockGatedPages(), 1400);
+  }
+
+  // ═══════════════════════════════════════════
+  //  CONFETTI BURST
+  // ═══════════════════════════════════════════
+  function launchConfetti() {
+    const container = document.getElementById('confetti-container');
+    if (!container) return;
+
+    const colors = ['#C9A84C', '#E6CB7A', '#5C3317', '#A07C2E', '#F5E6C8', '#7A4D2E'];
+    const pieceCount = 60;
+    const containerWidth = container.clientWidth || window.innerWidth;
+    const fallDistance = (container.clientHeight || window.innerHeight) + 60;
+
+    const frag = document.createDocumentFragment();
+
+    for (let i = 0; i < pieceCount; i++) {
+      const piece = document.createElement('span');
+      const isRound = Math.random() < 0.4;
+      piece.className = 'confetti-piece' + (isRound ? ' round' : '');
+
+      const size = 6 + Math.random() * 6;
+      piece.style.width = size + 'px';
+      piece.style.height = isRound ? size + 'px' : size * 1.7 + 'px';
+      piece.style.left = Math.random() * containerWidth + 'px';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+      const duration = 1.8 + Math.random() * 1.4; // seconds — brief burst
+      const delay = Math.random() * 0.3;
+      const drift = (Math.random() - 0.5) * 160;
+      const spin = 360 * (Math.random() < 0.5 ? -1 : 1) * (2 + Math.random() * 2);
+
+      piece.style.setProperty('--fall-distance', fallDistance + 'px');
+      piece.style.setProperty('--drift', drift + 'px');
+      piece.style.setProperty('--spin', spin + 'deg');
+      piece.style.animationDuration = duration + 's';
+      piece.style.animationDelay = delay + 's';
+
+      frag.appendChild(piece);
+    }
+
+    container.innerHTML = '';
+    container.appendChild(frag);
+
+    // Clean up after the burst finishes so the confetti doesn't linger
+    setTimeout(() => { container.innerHTML = ''; }, 3600);
   }
 
   // ═══════════════════════════════════════════
@@ -432,10 +494,10 @@
       if (el) el.innerHTML = '<p style="font-family:var(--font-serif);font-size:1.3rem;font-style:italic;color:var(--royal-brown);">Today is the day! ♥</p>';
       return;
     }
-    setCd('cd-days',  Math.floor(diff / 86400000).toString().padStart(3, '0'));
+    setCd('cd-days', Math.floor(diff / 86400000).toString().padStart(3, '0'));
     setCd('cd-hours', Math.floor((diff / 3600000) % 24).toString().padStart(2, '0'));
-    setCd('cd-mins',  Math.floor((diff / 60000) % 60).toString().padStart(2, '0'));
-    setCd('cd-secs',  Math.floor((diff / 1000) % 60).toString().padStart(2, '0'));
+    setCd('cd-mins', Math.floor((diff / 60000) % 60).toString().padStart(2, '0'));
+    setCd('cd-secs', Math.floor((diff / 1000) % 60).toString().padStart(2, '0'));
   }
 
   function setCd(id, val) {
@@ -474,9 +536,9 @@
     if (filmReady) return;
     filmReady = true;
 
-    const frames    = document.getElementById('film-frames');
-    const spTop     = document.getElementById('sprockets-top');
-    const spBottom  = document.getElementById('sprockets-bottom');
+    const frames = document.getElementById('film-frames');
+    const spTop = document.getElementById('sprockets-top');
+    const spBottom = document.getElementById('sprockets-bottom');
 
     if (frames) frames.innerHTML += frames.innerHTML; // Duplicate for loop
 
@@ -503,15 +565,16 @@
   // ═══════════════════════════════════════════
   //  RSVP FORM
   // ═══════════════════════════════════════════
-  const rsvpForm    = document.getElementById('rsvp-form');
+  const rsvpForm = document.getElementById('rsvp-form');
   const rsvpSuccess = document.getElementById('rsvp-success');
+  const rsvpError = document.getElementById('rsvp-error');
 
   if (rsvpForm) {
     rsvpForm.addEventListener('submit', function (e) {
       e.preventDefault();
 
-      const name   = document.getElementById('rsvp-name');
-      const phone  = document.getElementById('rsvp-phone');
+      const name = document.getElementById('rsvp-name');
+      const phone = document.getElementById('rsvp-phone');
       const attend = document.getElementById('rsvp-attend');
       let valid = true;
 
@@ -525,16 +588,50 @@
       const btn = document.getElementById('rsvp-submit');
       btn.disabled = true;
       btn.querySelector('.btn-text').textContent = 'Sending...';
+      if (rsvpError) rsvpError.classList.add('hidden');
 
-      setTimeout(() => {
-        rsvpForm.classList.add('hidden');
-        rsvpSuccess.classList.remove('hidden');
-        console.log('RSVP:', Object.fromEntries(new FormData(rsvpForm)));
-      }, 1600);
+      const payload = Object.fromEntries(new FormData(rsvpForm));
+      payload.submittedAt = new Date().toISOString();
+
+      submitRsvpToSheet(payload)
+        .then(() => {
+          rsvpForm.classList.add('hidden');
+          rsvpSuccess.classList.remove('hidden');
+        })
+        .catch(() => {
+          btn.disabled = false;
+          btn.querySelector('.btn-text').textContent = 'Send Response';
+          if (rsvpError) rsvpError.classList.remove('hidden');
+        });
     });
 
     rsvpForm.querySelectorAll('input, select, textarea').forEach(el => {
       el.addEventListener('focus', () => el.classList.remove('error'));
+    });
+  }
+
+  /**
+   * Sends the RSVP payload to the Google Apps Script web app, which appends
+   * a row to a connected Google Sheet. Apps Script web apps don't return
+   * CORS headers, so the request is sent in "no-cors" mode: the browser
+   * still delivers the POST and the script still runs, but the JS side
+   * can't read the response body — it can only tell whether the network
+   * request itself succeeded or failed.
+   */
+  function submitRsvpToSheet(payload) {
+    if (!GOOGLE_SHEET_ENDPOINT || GOOGLE_SHEET_ENDPOINT.indexOf('PASTE_YOUR') === 0) {
+      return Promise.reject(new Error('RSVP endpoint not configured'));
+    }
+
+    return fetch(GOOGLE_SHEET_ENDPOINT, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    }).then(() => {
+      // Response is opaque in no-cors mode (status is always 0), so a
+      // resolved promise here just means the request was sent successfully.
+      return true;
     });
   }
 
